@@ -11,7 +11,11 @@ import Onboarding from './pages/Onboarding';
 import DashboardLayout from './components/Dashboard/DashboardLayout';
 import DashboardOverview from './pages/Dashboard/Overview';
 import DashboardProducts from './pages/Dashboard/Products';
+import DashboardUserGuide from './pages/Dashboard/UserGuide';
+import DashboardAbout from './pages/Dashboard/About';
 import DashboardSettings from './pages/Dashboard/Settings';
+import PublicGuide from './pages/PublicGuide';
+import PublicAbout from './pages/PublicAbout';
 import { Toaster } from './components/ui/sonner';
 
 // Context
@@ -78,6 +82,8 @@ export default function App() {
         <Routes>
           {/* Public Mall */}
           <Route path="/" element={<MallHome />} />
+          <Route path="/guide" element={<PublicGuide />} />
+          <Route path="/about" element={<PublicAbout />} />
           
           {/* Store Onboarding */}
           <Route 
@@ -95,6 +101,8 @@ export default function App() {
           >
             <Route index element={<DashboardOverview />} />
             <Route path="products" element={<DashboardProducts />} />
+            <Route path="guide" element={<DashboardUserGuide />} />
+            <Route path="about" element={<DashboardAbout />} />
             <Route path="settings" element={<DashboardSettings />} />
           </Route>
 

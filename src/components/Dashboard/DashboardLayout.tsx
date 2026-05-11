@@ -14,7 +14,9 @@ import {
   ExternalLink,
   ChevronLeft,
   Menu,
-  X
+  X,
+  BookOpen,
+  Info
 } from 'lucide-react';
 import { Button } from '../ui/button';
 import { authService } from '../../services/authService';
@@ -47,6 +49,8 @@ export default function DashboardLayout() {
   const navItems = [
     { label: 'Overview', icon: LayoutDashboard, path: '/dashboard' },
     { label: 'Products', icon: Package, path: '/dashboard/products' },
+    { label: 'User Guide', icon: BookOpen, path: '/dashboard/guide' },
+    { label: 'About', icon: Info, path: '/dashboard/about' },
     { label: 'Settings', icon: Settings, path: '/dashboard/settings' },
   ];
 

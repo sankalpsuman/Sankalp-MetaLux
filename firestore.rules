@@ -49,7 +49,14 @@ service cloud.firestore {
     match /users/{uid} {
       allow read: if isSignedIn() && (request.auth.uid == uid || isSuperAdmin());
       allow create: if isSignedIn() && request.auth.uid == uid && isValidUser(incoming());
-      allow update: if (isSignedIn() && request.auth.uid == uid && isValidUser(incoming()) && incoming().role == existing().role) || isSuperAdmin();
+      allow update: if isSuperAdmin() || (
+        isSignedIn() && request.auth.uid == uid && isValidUser(incoming()) && (
+          // Allow role change from customer to store_owner during onboarding
+          (existing().role == 'customer' && incoming().role == 'store_owner' && incoming().storeId != null) ||
+          // Otherwise role must stay the same
+          (incoming().role == existing().role)
+        )
+      );
     }
 
     function isValidUser(data) {

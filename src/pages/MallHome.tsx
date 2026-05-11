@@ -30,6 +30,12 @@ export default function MallHome() {
         </Link>
         
         <div className="flex items-center gap-6">
+          <Link to="/about" className="text-[10px] font-bold uppercase tracking-widest text-ink hover:text-gold transition-colors hidden md:block">
+            About
+          </Link>
+          <Link to="/guide" className="text-[10px] font-bold uppercase tracking-widest text-ink hover:text-gold transition-colors hidden md:block">
+            Guide
+          </Link>
           {user ? (
             <div className="flex items-center gap-4">
               {profile?.storeId ? (
@@ -219,9 +225,10 @@ export default function MallHome() {
             © 2026 SANKALP METALUX. ALL RIGHTS RESERVED.
           </p>
           <div className="flex gap-6 uppercase text-[10px] font-bold tracking-widest text-ink/60">
+            <Link to="/about" className="hover:text-gold transition-colors">About</Link>
+            <Link to="/guide" className="hover:text-gold transition-colors">Guide</Link>
             <a href="#" className="hover:text-gold transition-colors">Privacy</a>
             <a href="#" className="hover:text-gold transition-colors">Terms</a>
-            <a href="#" className="hover:text-gold transition-colors">Contact</a>
           </div>
         </div>
       </footer>

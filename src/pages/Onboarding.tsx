@@ -18,13 +18,18 @@ export default function Onboarding() {
     name: '',
     slug: '',
     description: '',
-    category: '',
+    category: 'Fashion',
     whatsapp: '',
     instagram: '',
   });
 
-  if (profile?.storeId) {
-    navigate('/dashboard');
+  React.useEffect(() => {
+    if (profile?.storeId && step !== 3) {
+      navigate('/dashboard');
+    }
+  }, [profile, step, navigate]);
+
+  if (profile?.storeId && step !== 3) {
     return null;
   }
 
@@ -119,6 +124,22 @@ export default function Onboarding() {
                     />
                   </div>
                   <p className="text-[9px] text-ink/40 italic">Lowercase letters, numbers, and hyphens only.</p>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-gold text-right block italic">Boutique Category</label>
+                  <select 
+                    className="w-full bg-transparent border-b-2 border-gold/20 focus:border-gold transition-all text-sm py-2 outline-none appearance-none cursor-pointer"
+                    value={formData.category}
+                    onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
+                  >
+                    <option value="Fashion" className="bg-cream">Fashion & Apparel</option>
+                    <option value="Beauty" className="bg-cream">Beauty & Salon</option>
+                    <option value="Services" className="bg-cream">Professional Services</option>
+                    <option value="Food" className="bg-cream">Food & Beverage</option>
+                    <option value="Electronics" className="bg-cream">Electronics & Tech</option>
+                    <option value="Other" className="bg-cream">Other Boutique</option>
+                  </select>
                 </div>
 
                 {error && <p className="text-rose text-xs font-medium text-center">{error}</p>}
