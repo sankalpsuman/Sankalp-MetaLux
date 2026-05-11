@@ -17,6 +17,7 @@ import DashboardSettings from './pages/Dashboard/Settings';
 import PublicGuide from './pages/PublicGuide';
 import PublicAbout from './pages/PublicAbout';
 import { Toaster } from './components/ui/sonner';
+import { ThemeProvider } from './components/theme-provider';
 
 // Context
 interface AuthContextType {
@@ -76,40 +77,42 @@ export default function App() {
   }
 
   return (
-    <AuthContext.Provider value={{ user, profile, loading, refreshProfile }}>
-      <Toaster />
-      <Router>
-        <Routes>
-          {/* Public Mall */}
-          <Route path="/" element={<MallHome />} />
-          <Route path="/guide" element={<PublicGuide />} />
-          <Route path="/about" element={<PublicAbout />} />
-          
-          {/* Store Onboarding */}
-          <Route 
-            path="/onboarding" 
-            element={user ? <Onboarding /> : <Navigate to="/" />} 
-          />
+    <ThemeProvider defaultTheme="light" storageKey="metalux-theme">
+      <AuthContext.Provider value={{ user, profile, loading, refreshProfile }}>
+        <Toaster />
+        <Router>
+          <Routes>
+            {/* Public Mall */}
+            <Route path="/" element={<MallHome />} />
+            <Route path="/guide" element={<PublicGuide />} />
+            <Route path="/about" element={<PublicAbout />} />
+            
+            {/* Store Onboarding */}
+            <Route 
+              path="/onboarding" 
+              element={user ? <Onboarding /> : <Navigate to="/" />} 
+            />
 
-          {/* Store Frontend - Dynamic Slug */}
-          <Route path="/s/:slug" element={<StoreFront />} />
+            {/* Store Frontend - Dynamic Slug */}
+            <Route path="/s/:slug" element={<StoreFront />} />
 
-          {/* User Dashboard */}
-          <Route 
-            path="/dashboard" 
-            element={user ? <DashboardLayout /> : <Navigate to="/" />}
-          >
-            <Route index element={<DashboardOverview />} />
-            <Route path="products" element={<DashboardProducts />} />
-            <Route path="guide" element={<DashboardUserGuide />} />
-            <Route path="about" element={<DashboardAbout />} />
-            <Route path="settings" element={<DashboardSettings />} />
-          </Route>
+            {/* User Dashboard */}
+            <Route 
+              path="/dashboard" 
+              element={user ? <DashboardLayout /> : <Navigate to="/" />}
+            >
+              <Route index element={<DashboardOverview />} />
+              <Route path="products" element={<DashboardProducts />} />
+              <Route path="guide" element={<DashboardUserGuide />} />
+              <Route path="about" element={<DashboardAbout />} />
+              <Route path="settings" element={<DashboardSettings />} />
+            </Route>
 
-          {/* Fallback */}
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </Router>
-    </AuthContext.Provider>
+            {/* Fallback */}
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </Router>
+      </AuthContext.Provider>
+    </ThemeProvider>
   );
 }

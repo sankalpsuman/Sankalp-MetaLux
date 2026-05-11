@@ -19,6 +19,7 @@ import {
   Info
 } from 'lucide-react';
 import { Button } from '../ui/button';
+import { ThemeToggle } from '../ThemeToggle';
 import { authService } from '../../services/authService';
 import { Store } from '../../types';
 
@@ -55,9 +56,9 @@ export default function DashboardLayout() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F8F9FA] flex">
+    <div className="min-h-screen bg-background flex text-foreground">
       {/* Sidebar - Desktop */}
-      <aside className={`hidden md:flex flex-col bg-ink text-cream transition-all duration-300 ${collapsed ? 'w-20' : 'w-64'} h-screen sticky top-0 border-r border-white/5 shadow-2xl`}>
+      <aside className={`hidden md:flex flex-col bg-ink text-cream transition-all duration-300 ${collapsed ? 'w-20' : 'w-64'} h-screen sticky top-0 border-r border-white/5 shadow-2xl z-40`}>
         <div className="p-6 flex items-center justify-between">
           {!collapsed && (
             <h1 className="text-xl font-serif font-black tracking-tighter text-white">
@@ -109,41 +110,43 @@ export default function DashboardLayout() {
       </aside>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 min-h-screen overflow-x-hidden">
         {/* Header */}
-        <header className="bg-white border-b border-[#E9ECEF] h-16 px-6 flex items-center justify-between sticky top-0 z-30">
+        <header className="bg-card border-b border-border h-16 px-4 md:px-6 flex items-center justify-between sticky top-0 z-30 transition-colors duration-300">
           <div className="flex items-center gap-4">
-            <button className="md:hidden p-2 hover:bg-gray-100 rounded" onClick={() => setMobileMenuOpen(true)}>
-              <Menu size={20} />
+            <button className="md:hidden p-2 hover:bg-accent rounded" onClick={() => setMobileMenuOpen(true)}>
+              <Menu size={20} className="text-foreground" />
             </button>
-            <div className="hidden lg:flex items-center gap-2 text-xs text-gray-400 font-bold uppercase tracking-widest">
+            <div className="hidden lg:flex items-center gap-2 text-[10px] text-muted-foreground font-bold uppercase tracking-widest">
               <span>Sankalp MetaLux</span>
               <ChevronRight size={12} />
-              <span className="text-ink">Dashboard</span>
+              <span className="text-foreground">Dashboard</span>
             </div>
           </div>
 
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-2 md:gap-6">
             <div className="hidden md:flex relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
               <input 
                 placeholder="Search resources..." 
-                className="bg-gray-50 border border-gray-100 rounded-full pl-10 pr-4 py-2 text-xs font-medium focus:ring-1 focus:ring-gold outline-none w-64"
+                className="bg-accent/50 border border-border rounded-full pl-10 pr-4 py-2 text-[10px] font-medium focus:ring-1 focus:ring-gold outline-none w-48 lg:w-64 transition-all"
               />
             </div>
             
-            <button className="p-2 text-gray-400 hover:text-ink transition-colors relative">
+            <ThemeToggle />
+            
+            <button className="p-2 text-muted-foreground hover:text-foreground transition-colors relative">
               <Bell size={20} />
-              <div className="absolute top-1.5 right-1.5 w-2 h-2 bg-rose rounded-full border-2 border-white" />
+              <div className="absolute top-1.5 right-1.5 w-2 h-2 bg-rose rounded-full border-2 border-background" />
             </button>
 
-            <div className="flex items-center gap-3 pl-6 border-l border-gray-100">
+            <div className="flex items-center gap-3 pl-2 md:pl-6 border-l border-border">
               <div className="text-right hidden sm:block">
-                <p className="text-xs font-bold text-ink uppercase tracking-tighter">{user?.displayName}</p>
-                <p className="text-[10px] font-bold text-gold uppercase tracking-[0.2em]">{profile?.role}</p>
+                <p className="text-[10px] font-bold text-foreground uppercase tracking-tighter leading-tight">{user?.displayName}</p>
+                <p className="text-[9px] font-bold text-gold uppercase tracking-[0.2em]">{profile?.role}</p>
               </div>
-              <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-gold/20">
-                <img src={user?.photoURL || ''} alt="User" />
+              <div className="w-8 h-8 md:w-9 md:h-9 rounded-full overflow-hidden border-2 border-gold/20 flex-shrink-0">
+                <img src={user?.photoURL || 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + user?.email} alt="User" className="w-full h-full object-cover" />
               </div>
             </div>
           </div>

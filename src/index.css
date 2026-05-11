@@ -11,21 +11,21 @@
   --font-sans: "Inter", sans-serif;
   --font-display: "Space Grotesk", sans-serif;
 
-  --color-cream: #FDFBF7;
-  --color-gold: #D4AF37; /* More vibrant gold */
-  --color-maroon: #721c24; /* Deeper maroon */
-  --color-ink: #0D0D0D;
-  --color-saffron: #F4C430; /* New accent */
-  --color-indigo: #2D3E50; /* New accent */
-  --color-rose: #E0115F; /* New accent */
+  --color-cream: var(--cream);
+  --color-gold: var(--gold);
+  --color-maroon: var(--maroon);
+  --color-ink: var(--ink);
+  --color-saffron: var(--saffron);
+  --color-indigo: var(--indigo);
+  --color-rose: var(--rose);
 
-  --shadow-luxury: 0 20px 40px -15px rgba(114, 28, 36, 0.1);
-  --shadow-glow: 0 0 20px rgba(212, 175, 55, 0.2);
+  --shadow-luxury: 0 20px 40px -15px var(--shadow-luxury-color);
+  --shadow-glow: 0 0 20px var(--shadow-glow-color);
 }
 
 @layer base {
   body {
-    @apply font-sans antialiased selection:bg-rose/20 bg-background text-foreground;
+    @apply font-sans antialiased selection:bg-rose/20 bg-background text-foreground transition-colors duration-300;
   }
 
   h1, h2, h3, h4, h5, h6, .serif {
@@ -142,6 +142,18 @@
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
+
+  --cream: #FDFBF7;
+  --ink: #0D0D0D;
+  --gold: #D4AF37;
+  --maroon: #721c24;
+  --saffron: #F4C430;
+  --indigo: #2D3E50;
+  --rose: #E0115F;
+
+  --shadow-luxury-color: rgba(114, 28, 36, 0.1);
+  --shadow-glow-color: rgba(212, 175, 55, 0.2);
+
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -175,10 +187,22 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
+  --background: #0D0D0D;
+  --foreground: #FDFBF7;
+
+  --cream: #1A1A1A;
+  --ink: #FDFBF7;
+  --gold: #FFD700;
+  --maroon: #A52A2A;
+  --saffron: #FFD700;
+  --indigo: #4A90E2;
+  --rose: #FF69B4;
+
+  --shadow-luxury-color: rgba(0, 0, 0, 0.5);
+  --shadow-glow-color: rgba(255, 215, 0, 0.2);
+
+  --card: #151515;
+  --card-foreground: #FDFBF7;
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.922 0 0);

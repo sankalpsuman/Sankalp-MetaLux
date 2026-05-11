@@ -45,24 +45,25 @@ export default function UserGuide() {
   ];
 
   return (
-    <div className="max-w-4xl space-y-12 pb-20">
+    <div className="max-w-4xl space-y-12 pb-20 transition-colors duration-500">
       <div className="space-y-4">
-        <h1 className="text-4xl font-serif text-ink tracking-tight">The Artisan's Handbook</h1>
-        <p className="text-gray-400 font-sans text-lg italic">Master the art of digital boutique management with MetaLux.</p>
+        <h1 className="text-4xl md:text-5xl font-serif text-foreground tracking-tight italic">The Artisan's Handbook</h1>
+        <p className="text-muted-foreground font-sans text-lg italic">Master the art of digital boutique management with MetaLux.</p>
       </div>
 
-      <div className="grid gap-8">
+      <div className="grid gap-6 md:gap-8">
         {steps.map((step, index) => (
-          <div key={index} className="group bg-white p-8 rounded-[2rem] border border-gold/10 shadow-sm hover:shadow-xl transition-all duration-500 flex gap-6 items-start">
-            <div className="w-12 h-12 rounded-2xl bg-gold/5 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-500">
+          <div key={index} className="group bg-card p-6 md:p-10 rounded-[2rem] md:rounded-[2.5rem] border border-border shadow-sm hover:shadow-xl hover:border-gold/20 transition-all duration-500 flex flex-col md:flex-row gap-6 md:gap-8 items-start">
+            <div className="w-14 h-14 rounded-2xl bg-gold/10 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 border border-gold/20">
               {step.icon}
             </div>
             <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] font-black text-gold/30 uppercase tracking-[0.3em]">Step 0{index + 1}</span>
-                <h3 className="text-xl font-serif text-ink italic">{step.title}</h3>
+              <div className="flex items-center gap-3">
+                <span className="text-[10px] font-black text-gold/40 uppercase tracking-[0.4em]">Section 0{index + 1}</span>
+                <div className="h-[1px] w-8 bg-gold/20" />
               </div>
-              <p className="text-gray-500 leading-relaxed font-sans text-sm">
+              <h3 className="text-2xl font-serif text-foreground italic">{step.title}</h3>
+              <p className="text-muted-foreground leading-relaxed font-sans text-sm md:text-base">
                 {step.content}
               </p>
             </div>
@@ -70,27 +71,29 @@ export default function UserGuide() {
         ))}
       </div>
 
-      <div className="bg-ink text-cream p-12 rounded-[3rem] space-y-6 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-gold/10 rounded-full blur-3xl -mr-32 -mt-32" />
-        <div className="relative z-10 flex items-center gap-3 border-b border-gold/20 pb-4">
-          <HelpCircle className="text-gold" size={20} />
-          <h3 className="text-[10px] font-bold uppercase tracking-[0.2em]">Commonly Asked</h3>
+      <div className="bg-foreground text-background p-8 md:p-16 rounded-[2.5rem] md:rounded-[3.5rem] space-y-8 relative overflow-hidden group">
+        <div className="absolute top-0 right-0 w-80 h-80 bg-gold/10 rounded-full blur-[100px] -mr-40 -mt-40 group-hover:scale-150 transition-transform duration-1000" />
+        <div className="relative z-10 flex items-center gap-4 border-b border-background/10 pb-6">
+          <HelpCircle className="text-gold" size={24} />
+          <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-gold">Commonly Asked</h3>
         </div>
         
-        <div className="space-y-8 relative z-10">
-          <div className="space-y-2">
-            <h4 className="text-gold font-serif italic text-lg">"How do I share my shop?"</h4>
-            <p className="text-cream/60 text-sm">Go to 'Settings'. You'll see your unique boutique URL. Share this link on your social media or business cards.</p>
+        <div className="grid md:grid-cols-2 gap-10 md:gap-16 relative z-10">
+          <div className="space-y-3">
+            <h4 className="text-gold font-serif italic text-xl md:text-2xl">"How do I share my boutique?"</h4>
+            <p className="text-background/60 text-sm md:text-base leading-relaxed">Navigate to 'Settings'. You'll find your unique boutique URL at the top. Share this link on your digital portfolios or physical business cards.</p>
           </div>
-          <div className="space-y-2">
-            <h4 className="text-gold font-serif italic text-lg">"The image uploader failed?"</h4>
-            <p className="text-cream/60 text-sm">Check your internet connection or try pasting a direct image link from sites like Unsplash as a secondary option.</p>
+          <div className="space-y-3">
+            <h4 className="text-gold font-serif italic text-xl md:text-2xl">"Image upload considerations?"</h4>
+            <p className="text-background/60 text-sm md:text-base leading-relaxed">Ensure a robust connection. For best results, use high-resolution portraits of your pieces. WEBP format is highly recommended for optimal performance.</p>
           </div>
         </div>
 
-        <button className="relative z-10 mt-8 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gold hover:text-white transition-colors">
-          Contact Concierge <ChevronRight size={14} />
-        </button>
+        <div className="pt-6">
+          <button className="relative z-10 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.4em] text-gold hover:text-white transition-all hover:translate-x-2">
+            Contact Boutique Concierge <ChevronRight size={16} />
+          </button>
+        </div>
       </div>
     </div>
   );

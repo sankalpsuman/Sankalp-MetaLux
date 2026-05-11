@@ -29,88 +29,90 @@ export default function About() {
   ];
 
   return (
-    <div className="max-w-4xl space-y-20 pb-20">
+    <div className="max-w-4xl space-y-20 md:space-y-32 pb-20 transition-colors duration-500">
       {/* Hero Section */}
-      <div className="space-y-6">
-        <div className="flex items-center gap-2">
-           <div className="w-8 h-[2px] bg-gold" />
-           <span className="text-[10px] font-black uppercase tracking-[0.4em] text-gold">The Vision</span>
+      <div className="space-y-8">
+        <div className="flex items-center gap-4">
+           <div className="w-12 h-[1px] bg-gold" />
+           <span className="text-[10px] font-black uppercase tracking-[0.5em] text-gold">The Vision</span>
         </div>
-        <h1 className="text-5xl font-serif text-ink tracking-tight leading-tight">
-          Redefining the <span className="italic text-gold">Digital Mall</span> experience for the modern creator.
+        <h1 className="text-4xl md:text-6xl font-serif text-foreground tracking-tight leading-tight italic">
+          Redefining the <span className="text-gold">Digital Boutique</span> experience for the modern artisan.
         </h1>
-        <p className="text-gray-500 font-sans text-lg max-w-2xl leading-relaxed">
-          Sankalp MetaLux was born out of a simple problem: Shop owners spent more time wrestling with software than serving their customers. We built a sanctuary where high-end boutiques and professional services can thrive online without the friction of traditional e-commerce.
+        <p className="text-muted-foreground font-sans text-lg md:text-xl max-w-2xl leading-relaxed italic border-l-2 border-gold/30 pl-8">
+          Sankalp MetaLux was born from a singular conviction: Masterpieces deserve a sanctuary, not just a store. We built a digital mall where high-end ateliers and elite professionals thrive without technical compromise.
         </p>
       </div>
 
       {/* Philosophy */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
         {values.map((v, i) => (
-          <div key={i} className="p-8 bg-gold/5 rounded-[2.5rem] border border-gold/10 space-y-4">
-            <div className="text-gold">{v.icon}</div>
-            <h3 className="font-serif italic text-xl text-ink">{v.title}</h3>
-            <p className="text-gray-500 text-sm font-sans leading-relaxed">{v.desc}</p>
+          <div key={i} className="p-8 md:p-10 bg-card rounded-[2.5rem] border border-border space-y-6 hover:border-gold/20 hover:shadow-xl transition-all duration-500 group">
+            <div className="text-gold w-12 h-12 rounded-2xl bg-gold/5 flex items-center justify-center group-hover:scale-110 transition-transform">{v.icon}</div>
+            <div className="space-y-3">
+              <h3 className="font-serif italic text-2xl text-foreground">{v.title}</h3>
+              <p className="text-muted-foreground text-sm font-sans leading-relaxed">{v.desc}</p>
+            </div>
           </div>
         ))}
       </div>
 
       {/* The Problem We Solve */}
-      <div className="flex flex-col md:flex-row gap-12 items-center">
-        <div className="flex-1 space-y-6">
-          <h2 className="text-3xl font-serif text-ink italic leading-tight">Our Commitment to Your Growth</h2>
-          <p className="text-gray-500 text-sm leading-relaxed">
-            Standard platforms are too generic. Niche platforms are too expensive. MetaLux bridges that gap by providing a category-agnostic management suite that scales with you. No coding, no template hunting—just logic and elegance.
+      <div className="flex flex-col lg:flex-row gap-16 md:gap-24 items-center">
+        <div className="flex-1 space-y-8">
+          <h2 className="text-3xl md:text-4xl font-serif text-foreground italic leading-tight">Elevating Every Digital Interaction</h2>
+          <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
+            Mainstream platforms are often too rigid, while bespoke alternatives remain prohibitively complex. MetaLux bridges this divide with an architecture that prioritizes logic, elegance, and absolute scalability. 
           </p>
-          <ul className="space-y-3">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5">
             {[
-              "Zero maintenance overhead",
-              "Universal catering for all categories",
-              "Image-first cataloging approach",
-              "Instant digital storefront deployment"
+              "Zero maintenance friction",
+              "Universal category support",
+              "Visual-first discovery",
+              "Instant brand deployment"
             ].map((text, i) => (
-              <li key={i} className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-ink/70">
-                <CheckCircle className="text-gold" size={14} />
+              <li key={i} className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-foreground/80">
+                <CheckCircle className="text-gold" size={16} />
                 {text}
               </li>
             ))}
           </ul>
         </div>
-        <div className="flex-1 w-full aspect-square bg-ink rounded-[4rem] relative overflow-hidden group">
+        <div className="flex-1 w-full aspect-square md:aspect-[4/5] bg-foreground rounded-[3rem] md:rounded-[4rem] relative overflow-hidden group shadow-2xl">
           <img 
             src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=800&auto=format&fit=crop" 
-            className="w-full h-full object-cover opacity-50 group-hover:scale-110 transition-transform duration-1000 grayscale group-hover:grayscale-0"
-            alt="Luxury Retail"
+            className="w-full h-full object-cover opacity-40 group-hover:scale-110 transition-transform duration-1000 grayscale group-hover:grayscale-0"
+            alt="Luxury Atelier"
           />
           <div className="absolute inset-0 flex items-center justify-center">
-            <Gem className="text-gold animate-bounce" size={48} />
+            <Gem className="text-gold animate-pulse" size={64} />
           </div>
         </div>
       </div>
 
       {/* Team/Contact */}
-      <div className="border-t border-gold/10 pt-12 text-center space-y-6">
-        <div className="w-20 h-20 bg-gold/10 rounded-full mx-auto flex items-center justify-center">
-          <Users className="text-gold" size={32} />
+      <div className="border-t border-border pt-16 md:pt-24 text-center space-y-10">
+        <div className="w-20 h-20 md:w-24 md:h-24 bg-card rounded-3xl mx-auto flex items-center justify-center shadow-lg border border-border group hover:rotate-6 transition-transform">
+          <Users className="text-gold" size={36} />
         </div>
-        <div className="space-y-2">
-          <h3 className="text-2xl font-serif text-ink italic">Crafted by SankalpSMN</h3>
-          <p className="text-gray-400 text-sm max-w-md mx-auto italic font-sans">
-            A team dedicated to empowering the next generation of digital artisans and high-end service providers.
+        <div className="space-y-4">
+          <h3 className="text-3xl font-serif text-foreground italic tracking-tight">Curated by <span className="text-gold">SANKALP METALUX</span></h3>
+          <p className="text-muted-foreground text-base max-w-lg mx-auto italic font-sans leading-relaxed">
+            A collective dedicated to empowering the next generation of digital artisans and high-end service providers.
           </p>
         </div>
-        <div className="flex justify-center gap-8 pt-4">
-           <div className="text-center">
-              <p className="text-[10px] font-black uppercase tracking-widest text-gold">Founded</p>
-              <p className="text-xl font-serif text-ink">2026</p>
+        <div className="flex flex-wrap justify-center gap-8 md:gap-16 pt-8">
+           <div className="text-center space-y-1">
+              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-gold">Foundation</p>
+              <p className="text-2xl font-serif text-foreground italic">2026</p>
            </div>
-           <div className="text-center">
-              <p className="text-[10px] font-black uppercase tracking-widest text-gold">Region</p>
-              <p className="text-xl font-serif text-ink">Global</p>
+           <div className="text-center space-y-1">
+              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-gold">Reach</p>
+              <p className="text-2xl font-serif text-foreground italic">Global</p>
            </div>
-           <div className="text-center">
-              <p className="text-[10px] font-black uppercase tracking-widest text-gold">Goal</p>
-              <p className="text-xl font-serif text-ink">Zero-Friction</p>
+           <div className="text-center space-y-1">
+              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-gold">Philosophy</p>
+              <p className="text-2xl font-serif text-foreground italic">Frictionless</p>
            </div>
         </div>
       </div>
