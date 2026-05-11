@@ -2,5 +2,5 @@
   "name": "Sankalp MetaLux",
   "description": "A premium multi-tenant digital mall ecosystem for high-end boutique brands.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["Multi-tenant SaaS", "Firebase Integration", "Luxury Design System"]
+  "majorCapabilities": []
 }

@@ -85,10 +85,8 @@ export default function MallHome() {
             </div>
             
             <div className="flex flex-wrap gap-4 pt-4">
-              <Link to="/onboarding">
-                <button className="wa-button group">
-                  Start Your Boutique <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                </button>
+              <Link to="/onboarding" className="wa-button group">
+                Start Your Boutique <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
               </Link>
               <button className="px-8 py-4 border border-ink/10 text-[10px] font-bold uppercase tracking-widest hover:bg-ink hover:text-cream transition-all">
                 Explore MetaLux
@@ -204,8 +202,8 @@ export default function MallHome() {
             Sankalp MetaLux is more than a platform. It's a luxury ecosystem for the ambitious creator. No coding, no hassle—just pure, polished storefronts.
           </p>
           <div className="pt-6">
-            <Link to="/onboarding">
-              <button className="wa-button px-12">Apply to MetaLux</button>
+            <Link to="/onboarding" className="wa-button px-12">
+              Apply to MetaLux
             </Link>
           </div>
         </div>

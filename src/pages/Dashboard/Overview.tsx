@@ -54,10 +54,8 @@ export default function Overview() {
           <h1 className="text-3xl font-serif text-ink tracking-tight">Bonjour, {profile?.displayName?.split(' ')[0]}</h1>
           <p className="text-gray-400 font-sans text-sm mt-1 uppercase tracking-widest font-bold">Here is what is happening at <span className="text-gold italic">"{store?.name}"</span></p>
         </div>
-        <Link to="/dashboard/products">
-          <Button className="wa-button !py-2 h-10 px-6 rounded-full">
-            <Plus size={16} /> Add Product
-          </Button>
+        <Link to="/dashboard/products" className="wa-button !py-2 h-10 px-6 rounded-full">
+          <Plus size={16} /> Add Product
         </Link>
       </div>
 

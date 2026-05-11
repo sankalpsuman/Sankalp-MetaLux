@@ -73,7 +73,7 @@
 }
 
 .glass-card {
-  @apply bg-white/40 backdrop-blur-md border border-white/20 shadow-luxury transition-all;
+  @apply bg-white/90 backdrop-blur-xl border border-white/20 shadow-luxury transition-all;
 }
 
 .staggered-text span {
