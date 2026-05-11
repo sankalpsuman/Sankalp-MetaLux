@@ -1,0 +1,120 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // -------------------------------------------------------------------------
+    // Helper Functions
+    // -------------------------------------------------------------------------
+    
+    function isSignedIn() {
+      return request.auth != null && request.auth.token.email_verified == true;
+    }
+
+    function getAdminData() {
+      return get(/databases/$(database)/documents/admins/$(request.auth.token.email)).data;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && 
+             request.auth.token.email != null &&
+             exists(/databases/$(database)/documents/admins/$(request.auth.token.email)) && 
+             getAdminData().status == 'active';
+    }
+
+    function isSuperAdmin() {
+      return isAdmin() && (getAdminData().role == 'super_admin' || request.auth.token.email == 'sankalpsmn@gmail.com');
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // -------------------------------------------------------------------------
+    // Admins Collection
+    // -------------------------------------------------------------------------
+    
+    match /admins/{email} {
+      allow read: if isSuperAdmin() || (isSignedIn() && request.auth.token.email == email);
+      
+      allow create: if isSuperAdmin() && isValidAdmin(incoming()) && incoming().createdAt == request.time;
+      
+      allow update: if isSuperAdmin() && isValidAdmin(incoming()) && (
+        // Protect main super admin from modification that downgrades them
+        (email != 'sankalpsmn@gmail.com') || (incoming().role == 'super_admin' && incoming().status == 'active')
+      ) && incoming().createdAt == existing().createdAt;
+      
+      allow delete: if isSuperAdmin() && email != 'sankalpsmn@gmail.com';
+    }
+
+    function isValidAdmin(data) {
+      return data.keys().hasAll(['email', 'role', 'status', 'createdAt']) && 
+             data.email is string && data.email.size() <= 200 &&
+             data.role in ['super_admin', 'admin'] &&
+             data.status in ['active', 'disabled'];
+    }
+
+    // -------------------------------------------------------------------------
+    // Products Collection
+    // -------------------------------------------------------------------------
+    
+    match /products/{productId} {
+      allow list: if true;
+      allow get: if isValidId(productId);
+      
+      allow create: if isAdmin() && isValidProduct(incoming()) && 
+                    incoming().createdAt == request.time &&
+                    incoming().updatedAt == request.time;
+      
+      allow update: if isAdmin() && isValidProduct(incoming()) && 
+                    incoming().updatedAt == request.time &&
+                    incoming().createdAt == existing().createdAt;
+                    
+      allow delete: if isAdmin();
+    }
+
+    function isValidProduct(data) {
+      return data.keys().hasAll(['name', 'price', 'imageUrl', 'createdAt', 'updatedAt']) &&
+             data.name is string && data.name.size() <= 100 &&
+             data.price is number && data.price >= 0 &&
+             data.imageUrl is string && data.imageUrl.size() <= 1000 &&
+             (data.get('description', '') is string && data.get('description', '').size() <= 2000) &&
+             (data.get('category', '') is string && data.get('category', '').size() <= 100) &&
+             (data.get('publicId', '') is string && data.get('publicId', '').size() <= 200);
+    }
+
+    // -------------------------------------------------------------------------
+    // Feedback Collection
+    // -------------------------------------------------------------------------
+    
+    match /feedback/{feedbackId} {
+      allow read: if true;
+      
+      allow create: if isValidFeedback(incoming()) && 
+                    incoming().createdAt == request.time;
+      
+      allow delete: if isAdmin();
+    }
+
+    function isValidFeedback(data) {
+      return data.keys().hasAll(['productId', 'userName', 'comment', 'rating', 'createdAt']) &&
+             data.keys().size() == 5 &&
+             data.productId is string && exists(/databases/$(database)/documents/products/$(data.productId)) &&
+             data.userName is string && data.userName.size() <= 100 &&
+             data.comment is string && data.comment.size() <= 1000 &&
+             data.rating is number && data.rating >= 1 && data.rating <= 5;
+    }
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Information about a platform user (owner, customer, or admin)",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string", "format": "uri" },
+        "role": { "type": "string", "enum": ["super_admin", "store_owner", "customer"] },
+        "storeId": { "type": "string", "description": "Reference to the store owned by this user (if any)" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role", "createdAt"]
+    },
+    "Store": {
+      "title": "Store",
+      "description": "A boutique storefront within the Sankalp MetaLux ecosystem",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "ownerId": { "type": "string", "description": "The UID of the store owner" },
+        "name": { "type": "string" },
+        "slug": { "type": "string", "description": "Unique URL segment for the store" },
+        "description": { "type": "string" },
+        "logoUrl": { "type": "string", "format": "uri" },
+        "bannerUrl": { "type": "string", "format": "uri" },
+        "category": { "type": "string", "description": "Main category of the store (e.g., Fashion, Jewelry)" },
+        "theme": { "type": "string", "enum": ["minimal", "classic", "dark", "gold"] },
+        "contact": {
+          "type": "object",
+          "properties": {
+            "whatsapp": { "type": "string" },
+            "instagram": { "type": "string" },
+            "email": { "type": "string" }
+          }
+        },
+        "status": { "type": "string", "enum": ["pending", "active", "suspended"] },
+        "isFeatured": { "type": "boolean" },
+        "analytics": {
+          "type": "object",
+          "properties": {
+            "views": { "type": "number" },
+            "inquiries": { "type": "number" }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "name", "slug", "status", "createdAt"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "An item for sale in a specific store",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "storeId": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "price": { "type": "number" },
+        "currency": { "type": "string", "default": "INR" },
+        "images": { "type": "array", "items": { "type": "string", "format": "uri" } },
+        "category": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "inStock": { "type": "boolean", "default": true },
+        "isFeatured": { "type": "boolean", "default": false },
+        "metadata": { "type": "object" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["storeId", "name", "price", "images", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{uid}": {
+      "schema": "User",
+      "description": "Platform user profiles"
+    },
+    "/stores/{storeId}": {
+      "schema": "Store",
+      "description": "Main collection for boutiques"
+    },
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Global products collection (indexed by storeId)"
+    }
+  }
+}

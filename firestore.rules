@@ -1,0 +1,98 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // -------------------------------------------------------------------------
+    // Helper Functions
+    // -------------------------------------------------------------------------
+    
+    function isSignedIn() {
+      return request.auth != null && request.auth.token.email_verified == true;
+    }
+
+    function getUserData(uid) {
+      return get(/databases/$(database)/documents/users/$(uid)).data;
+    }
+
+    function isSuperAdmin() {
+      return isSignedIn() && (getUserData(request.auth.uid).role == 'super_admin' || request.auth.token.email == 'sankalpsmn@gmail.com');
+    }
+
+    function isStoreOwner(storeId) {
+      return isSignedIn() && (
+        getUserData(request.auth.uid).role == 'store_owner' && 
+        get(/databases/$(database)/documents/stores/$(storeId)).data.ownerId == request.auth.uid
+      );
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // -------------------------------------------------------------------------
+    // Users Collection
+    // -------------------------------------------------------------------------
+    
+    match /users/{uid} {
+      allow read: if isSignedIn() && (request.auth.uid == uid || isSuperAdmin());
+      allow create: if isSignedIn() && request.auth.uid == uid && isValidUser(incoming());
+      allow update: if (isSignedIn() && request.auth.uid == uid && isValidUser(incoming()) && incoming().role == existing().role) || isSuperAdmin();
+    }
+
+    function isValidUser(data) {
+      return data.keys().hasAll(['uid', 'email', 'role', 'createdAt']) && 
+             data.uid == request.auth.uid &&
+             data.email == request.auth.token.email &&
+             data.role in ['super_admin', 'store_owner', 'customer'];
+    }
+
+    // -------------------------------------------------------------------------
+    // Stores Collection
+    // -------------------------------------------------------------------------
+    
+    match /stores/{storeId} {
+      allow read: if true; // Publicly viewable if status is active
+      allow create: if isSignedIn() && isValidStore(incoming()) && incoming().ownerId == request.auth.uid;
+      allow update: if isSuperAdmin() || (isSignedIn() && existing().ownerId == request.auth.uid && isValidStore(incoming()));
+      allow delete: if isSuperAdmin();
+    }
+
+    function isValidStore(data) {
+      return data.keys().hasAll(['ownerId', 'name', 'slug', 'status', 'createdAt']) &&
+             data.name is string && data.name.size() <= 100 &&
+             data.slug is string && data.slug.matches('^[a-z0-9-]+$') &&
+             data.status in ['pending', 'active', 'suspended'];
+    }
+
+    // -------------------------------------------------------------------------
+    // Products Collection
+    // -------------------------------------------------------------------------
+    
+    match /products/{productId} {
+      allow read: if true;
+      allow create: if isSignedIn() && isStoreOwner(incoming().storeId) && isValidProduct(incoming());
+      allow update: if isSuperAdmin() || (isSignedIn() && isStoreOwner(existing().storeId) && isValidProduct(incoming()));
+      allow delete: if isSuperAdmin() || (isSignedIn() && isStoreOwner(existing().storeId));
+    }
+
+    function isValidProduct(data) {
+      return data.keys().hasAll(['storeId', 'name', 'price', 'images', 'createdAt']) &&
+             data.name is string && data.name.size() <= 200 &&
+             data.price is number && data.price >= 0 &&
+             data.images is list && data.images.size() <= 10;
+    }
+  }
+}
